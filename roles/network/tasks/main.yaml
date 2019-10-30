@@ -1,0 +1,13 @@
+
+# This doesn't appear to make the dhcp lease persistent
+# so might need to use the shell here. The XML gets edited 
+# and can be viewed when using net-dumpxml but the actual 
+# network XML file is not saved to persistent storage.
+
+- name: Add DHCP lease
+  virt_net:
+    uri: "{{ virt_uri }}"
+    name: default
+    command: modify
+    xml: "{{ lookup('file', 'dhcp_lease.xml') }}"
+

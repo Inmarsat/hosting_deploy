@@ -1,0 +1,7 @@
+Host {{ vm_name }}
+  User root
+  Hostname {{ lan_ip }}
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  LogLevel ERROR
+  IdentityFile ~/.ssh/id_rsa_demo

@@ -1,0 +1,7 @@
+vm_name: isat-demo
+xml_file: "{{ vm_name }}.xml"
+image_dir: /var/lib/libvirt/images
+image_name: "{{ vm_name }}.qcow2"
+image_file: "{{ image_name }}"
+virt_uri: qemu:///system
+lan_ip: 192.168.222.10

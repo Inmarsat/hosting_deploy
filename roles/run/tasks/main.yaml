@@ -1,0 +1,20 @@
+
+- name: Define {{ vm_name }} VM
+  virt:
+    uri: "{{ virt_uri }}"
+    command: define
+    name: "{{ vm_name }}"
+    xml: "{{ lookup('file', vm_name + '.xml') }}"
+
+- name: Start the {{ vm_name }} VM
+  virt:
+    uri: "{{ virt_uri }}"
+    state: running
+    name: "{{ vm_name }}"
+
+- name: Ensure the {{ vm_name }} VM is autostarted
+  virt:
+    uri: "{{ virt_uri }}"
+    command: status
+    autostart: yes
+    name: "{{ vm_name }}"

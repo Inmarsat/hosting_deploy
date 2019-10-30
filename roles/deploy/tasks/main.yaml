@@ -1,0 +1,44 @@
+
+- name: Place ssh config
+  template:
+    src: ssh_config
+    dest: "~/.ssh/conf.d/{{ vm_name }}"
+    owner: 1000
+    group: 1000
+    mode: 0644
+
+- name: Get a list of VMs
+  virt:
+    uri: "{{ virt_uri }}"
+    command: list_vms
+  register: vms
+
+- name: Destroy the {{ vm_name }} VM
+  virt:
+    uri: "{{ virt_uri }}"
+    state: destroyed
+    name: "{{ vm_name }}"
+  when: vm_name in vms.list_vms
+
+
+
+- name: copy image
+  synchronize:
+    src: isat-demo.qcow2
+    dest: /var/lib/libvirt/images/
+
+- name: Create a snapshots directory
+  file:
+    dest: "{{ image_dir }}/snapshots"
+    state: directory
+    owner: 1000
+    group: 36
+    mode: 0775
+
+- name: Create a snapshot of the image
+  shell: |
+    snapshot={{ vm_name }}.qcow2
+    cd {{ image_dir }}/snapshots
+    qemu-img create -f qcow2 -b ../{{ image_name }} ${snapshot}
+    chown 1000:36 ${snapshot}
+    chmod 0644 ${snapshot}

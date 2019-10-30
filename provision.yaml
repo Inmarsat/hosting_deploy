@@ -1,0 +1,11 @@
+- name: "Deploy Demo VM"
+  hosts: "{{ host | default('default') }}"
+  remote_user: varuser
+  gather_facts: no
+
+  roles:
+    - common
+    - deploy
+    - network
+    - run
+
